@@ -1,0 +1,44 @@
+{
+  "version": "0.1.0",
+  "name": "esfive",
+  "description": "ES5-to-ES3 transpiler",
+  "keywords": [
+    "es5",
+    "transpiler"
+  ],
+  "homepage": "https://github.com/asmblah/esfive",
+  "author": "Dan Phillimore <dan@ovms.co> (http://ovms.co)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asmblah/esfive"
+  },
+  "bugs": {
+    "email": "dan@ovms.co",
+    "url": "http://github.com/asmblah/esfive/issues"
+  },
+  "main": "index",
+  "scripts": {
+    "jshint": "jshint .",
+    "mocha": "mochify -r ./test/harness/common --reporter spec ./test/unit/*.js ./test/unit/**/*.js",
+    "test": "npm run jshint && npm run mocha"
+  },
+  "dependencies": {
+    "escodegen": "^1.6.1",
+    "esprima": "^2.5.0",
+    "estraverse": "^4.1.0",
+    "lodash": "^3.10.0",
+    "weak-map": "^1.0.5"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "jshint": "^2.8.0",
+    "mochify": "^2.13.0",
+    "nowdoc": "^1.0.0",
+    "sinon": "~1.15",
+    "sinon-chai": "^2.7.0"
+  },
+  "engines": {
+    "node": ">=0.6"
+  },
+  "license": "MIT"
+}
