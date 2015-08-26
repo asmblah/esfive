@@ -32,7 +32,19 @@ var _ = require('lodash'),
             F.prototype = from;
             return new F();
         },
-    defineProperty,
+    // Some special properties may already be defined, eg. '__proto__', so use native Object.defineProperty(...)
+    defineProperty = environment.isES5 ? function defineProperty(object, name, descriptor) {
+        return Object.defineProperty(object, name, {
+            configurable: true,
+            enumerable: descriptor.enumerable, // Required for interop with non-transpiled native ES5 code
+            writable: true,
+            value: createPropertyPointer(object, descriptor)
+        });
+    } : function defineProperty(object, name, descriptor) {
+        object[name] = createPropertyPointer(object, descriptor);
+
+        return object;
+    },
     getType = function (obj) {
         return {}.toString.call(obj).match(/\[object ([\s\S]*)\]/)[1];
     },
@@ -1377,20 +1389,6 @@ function defineProperties(object, descriptors) {
         }
     }
 }
-
-// Some special properties may already be defined, eg. '__proto__', so use native Object.defineProperty(...)
-defineProperty = environment.isES5 ? function defineProperty(object, name, descriptor) {
-    return Object.defineProperty(object, name, {
-        configurable: true,
-        enumerable: descriptor.enumerable, // Required for interop with non-transpiled native ES5 code
-        writable: true,
-        value: createPropertyPointer(object, descriptor)
-    });
-} : function defineProperty(object, name, descriptor) {
-    object[name] = createPropertyPointer(object, descriptor);
-
-    return object;
-};
 
 function getOwnPropertyNames(object) {
     var name,
